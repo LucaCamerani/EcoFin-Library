@@ -9,7 +9,10 @@ This file is part of the EcoFin-Library (https://github.com/LucaCamerani/EcoFin-
 and is released under the "BSD Open Source License".
 """
 
+import numpy as np
 import pandas as pd
+
+from collections import namedtuple
 
 
 class Allocation():
@@ -49,3 +52,13 @@ class Allocation():
 
     def getBalancing(self, weights: pd.DataFrame):
         return weights.sum(axis=1)
+
+    def getTurnover(self, weights: pd.DataFrame):
+        turnover = np.abs(weights.shift(1, axis=1) - weights)
+
+        return namedtuple('Turnover', ['matrix', 'byTime', 'byTicker', 'mean'])(**{
+            "matrix": turnover,
+            "byTime": turnover.mean(axis=1),
+            "byTicker": turnover.mean(),
+            "mean": np.nanmean(turnover.values)
+        })

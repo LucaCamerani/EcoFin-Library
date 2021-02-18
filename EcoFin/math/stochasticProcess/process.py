@@ -49,7 +49,9 @@ class Process():
 
             output.append(np.random.multivariate_normal(meanN, covMatrixN))
 
-        if lineCorr: output = listInterpreter(output)
+        if lineCorr:
+            output = listInterpreter(output)
+
         return output
 
     def standardBrownianMotion(self, lineCorr=True):

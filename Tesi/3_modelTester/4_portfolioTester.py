@@ -32,8 +32,8 @@ force = 'VIX_[CBOE]'        # In None, don't use force driver
 polarize = True             # True or False: polarize direction component
 
 # Portfolio set-up
-buy_only = True             # Set a buy only strategy that ignore negative signals
-w_limit = 5                 # Ranks best N ticker based on strategy
+buy_only = False            # Set a buy only strategy that ignore negative signals
+w_limit = None              # Ranks best N ticker based on strategy
 w_equally = True            # Equally weighted mode
 leverage = None             # Strategy leverage (1 is no leverage, None is auto-compensation)
 # ----------------------------------------------------------
@@ -95,9 +95,10 @@ else:
 if leverage is None: leverage = data['SpotPrice'].shape[1]
 data['strategy'] = data['lnReturns'] * data['weights'] * leverage
 
-# Compute performance metrics
+# Compute and print performance metrics
 performance = Performance(data['lnReturns'].mean(axis=1), data['strategy'].mean(axis=1), r=0.019)
 performance.printPerformanceSummary()
+print('\n\033[1mTurnover avg.:\033[0m {0:.2%}'.format(allocation.getTurnover(data['weights']).mean))
 
 # =====================================================================================
 #                       FROM HERE NO DATA MANIPULATION
