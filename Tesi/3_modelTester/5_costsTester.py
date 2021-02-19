@@ -20,7 +20,6 @@ This file is part of the EcoFin-Library (https://github.com/LucaCamerani/EcoFin-
 and is released under the "BSD Open Source License".
 """
 
-import math
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -132,7 +131,7 @@ axs[0].plot(data['strategy_net'].cumsum(), label='Strategy Net')
 axs[0].set(ylabel='Cumulated ln-returns ($X_t$)')
 axs[0].legend()
 
-# Plot number of assets in portfolio
+# Plot transaction costs
 ax2 = axs[0].twinx()
 color = 'tab:gray'
 ax2.set_ylabel('Transaction Costs', color=color)
