@@ -37,7 +37,7 @@ def unixtimestamp_to_date(date: (int, str)):
 
 def polarizeTable(data: pd.DataFrame, cutoff=0, over=1, under=-1):
     """
-    This function returns a polarized matrix (dataframe)
+    This function returns a polarized matrix (dataframe).
     """
     table = data.copy()
     table[table > cutoff] = over
@@ -48,7 +48,7 @@ def polarizeTable(data: pd.DataFrame, cutoff=0, over=1, under=-1):
 
 def filterTable(data: pd.DataFrame, confidence=.1):
     """
-    This function returns the extremes value of dataframe
+    This function returns the extremes value of dataframe.
     """
     table = pd.DataFrame().reindex_like(data)
 
@@ -59,3 +59,26 @@ def filterTable(data: pd.DataFrame, confidence=.1):
     table[data.le(l, axis=1)] = data
 
     return table
+
+def reduceDictionary(data: dict):
+    """
+    This function reduce a dictionary in the case of one only element dict.
+    Eg. a = {"key": value} -> value
+    """
+    if len(data) == 1:
+        return data[list(data.keys())[0]]
+
+def expandToDictionary(data, key: str):
+    """
+    This function expand a non dictionary variable in to a dictionary with a key
+    Eg. a = value -> {"key": value}
+    """
+    if not isinstance(data, dict):
+        return {key: data}
+    else:
+        return data
+
+def mergeDict(dict1, dict2):
+    res = {**dict1, **dict2}
+
+    return res

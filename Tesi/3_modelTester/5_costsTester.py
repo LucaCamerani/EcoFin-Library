@@ -1,4 +1,15 @@
 """
+5_costsTester.py
+
+Created by Luca Camerani at 18/02/2021, University of Milano-Bicocca.
+(l.camerani@campus.unimib.it)
+All rights reserved.
+
+This file is part of the EcoFin-Library (https://github.com/LucaCamerani/EcoFin-Library),
+and is released under the "BSD Open Source License".
+"""
+
+"""
 4_portfolioTester.py
 
 Created by Luca Camerani at 10/02/2021, University of Milano-Bicocca.
@@ -9,6 +20,7 @@ This file is part of the EcoFin-Library (https://github.com/LucaCamerani/EcoFin-
 and is released under the "BSD Open Source License".
 """
 
+import math
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -36,6 +48,9 @@ buy_only = False            # Set a buy only strategy that ignore negative signa
 w_limit = None              # Ranks best N ticker based on strategy
 w_equally = False           # Equally weighted mode
 leverage = None             # Strategy leverage (1 is no leverage, None is auto-compensation)
+
+# Transaction costs
+tc = 8                      # unit in basis points
 # ----------------------------------------------------------
 
 base = ['SpotPrice']
@@ -96,10 +111,10 @@ if leverage is None:
     leverage = data['SpotPrice'].shape[1]
 data['strategy'] = data['lnReturns'] * data['weights'] * leverage
 
-# Compute and print performance metrics
-performance = Performance(data['lnReturns'].mean(axis=1), data['strategy'].mean(axis=1), r=0.019)
-performance.printPerformanceSummary()
-print('\n\033[1mTurnover avg.:\033[0m {0:.2%}'.format(allocation.getTurnover(data['weights']).mean))
+# Compute turnover and transaction costs
+turnover = allocation.getTurnover(data['weights'])
+data['costs'] = np.log(turnover.byTime * 2 * (tc/1e4) + 1)
+data['strategy_net'] = data['strategy'].mean(axis=1) - data['costs']
 
 # =====================================================================================
 #                       FROM HERE NO DATA MANIPULATION
@@ -111,35 +126,25 @@ fig.suptitle('Strategy tester', fontsize=16)
 
 # Plot strategy return vs. benchmark (data)
 axs[0].set_title('data returns')
-axs[0].plot(data['lnReturns'].mean(axis=1).cumsum(), label='Benchmark')
-axs[0].plot(data['strategy'].mean(axis=1).cumsum(), label='Strategy')
+axs[0].plot(data['lnReturns'].mean(axis=1).cumsum(), linestyle='dotted', label='Benchmark')
+axs[0].plot(data['strategy'].mean(axis=1).cumsum(), label='Strategy Gross')
+axs[0].plot(data['strategy_net'].cumsum(), label='Strategy Net')
 axs[0].set(ylabel='Cumulated ln-returns ($X_t$)')
 axs[0].legend()
 
 # Plot number of assets in portfolio
 ax2 = axs[0].twinx()
 color = 'tab:gray'
-ax2.set_ylabel('Number of assets', color=color)
-ax2.plot(allocation.countAssets(data['weights']), linewidth=.5, color=color)
+ax2.set_ylabel('Transaction Costs', color=color)
+ax2.fill_between(data['costs'].index, 0, data['costs'], linewidth=.5, alpha=.2, color=color)
+ax2.plot(data['costs'], linewidth=.5, alpha=.6, color=color)
+ax2.set_ylim([0, data['costs'].max() * 4])
 ax2.tick_params(axis='y', labelcolor=color)
 
 # Plot evolution of weights
-positive = data['weights'][data['weights'] >= 0].fillna(0)
-negative = data['weights'][data['weights'] < 0].fillna(0)
-
-axs[1].set_title('Weights evolution')
-axs[1].stackplot(data['weights'].index, positive.T)
-axs[1].stackplot(data['weights'].index, negative.T)
-axs[1].plot(allocation.getBalancing(data['weights']), linewidth=1, linestyle="dotted",
-            color='black', alpha=.6, label='Balancing ($\mu$)')
-axs[1].set(xlabel=r'days ($t$)', ylabel=r'data weights')
+axs[1].set_title('Transition costs')
+axs[1].plot(turnover.byTime, color='gold', label=r'Turnover ($\gamma$)')
+axs[1].axhline(turnover.mean, alpha=.6, linestyle='--', label=r'mean')
 axs[1].legend()
-
-with pd.ExcelWriter('{}/portfolio.xlsx'.format(base_path)) as writer:
-    data['SpotPrice'].to_excel(writer, sheet_name='SpotPrices', index=True)
-    data['lnReturns'].to_excel(writer, sheet_name='lnReturns', index=True)
-    data['signals'].to_excel(writer, sheet_name='Signals', index=True)
-    data['weights'].to_excel(writer, sheet_name='Weights', index=True)
-    data['strategy'].to_excel(writer, sheet_name='Strategy', index=True)
 
 plt.show()
