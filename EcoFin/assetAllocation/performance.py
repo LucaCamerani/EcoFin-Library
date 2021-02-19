@@ -10,6 +10,7 @@ and is released under the "BSD Open Source License".
 """
 
 import math
+import json
 
 from collections import namedtuple
 from tabulate import tabulate
@@ -47,6 +48,7 @@ class Performance():
 
         self.excess = {'ln': {key: benchmark - data for key, data in strategy.items()},
                        'pct': {key: (np.exp(benchmark) - 1) - (np.exp(data) - 1) for key, data in strategy.items()}}
+
 
     def getReturn(self):
         strategy = reduceDictionary({key: np.exp(data.sum()) ** (self.days / self.len) - 1
@@ -89,8 +91,8 @@ class Performance():
         })
 
     def getInformationRatio(self):
-        excess = expandToDictionary(self.getExcessReturn(), 'Strategy')
-        output = reduceDictionary({key: excess[key].value / expandToDictionary(self.getExcessReturn().history, 'Strategy')[key].std()
+        excess = expandToDictionary(self.getExcessReturn().value, 'Strategy')
+        output = reduceDictionary({key: excess[key] / expandToDictionary(self.getExcessReturn().history, 'Strategy')[key].std()
                                    for key in expandToDictionary(self.returns['pct']['strategy'], 'Strategy').keys()})
 
         return output

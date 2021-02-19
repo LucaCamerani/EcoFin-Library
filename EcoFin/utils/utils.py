@@ -67,6 +67,8 @@ def reduceDictionary(data: dict):
     """
     if len(data) == 1:
         return data[list(data.keys())[0]]
+    else:
+        return data
 
 def expandToDictionary(data, key: str):
     """

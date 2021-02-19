@@ -97,7 +97,8 @@ if leverage is None:
 data['strategy'] = data['lnReturns'] * data['weights'] * leverage
 
 # Compute and print performance metrics
-performance = Performance(data['lnReturns'].mean(axis=1), data['strategy'].mean(axis=1), r=0.019)
+performance = Performance(data['lnReturns'].mean(axis=1), {'strategy1': data['strategy'].mean(axis=1),
+                                                           'strategy2': data['strategy'].mean(axis=1)}, r=0.019)
 performance.printPerformanceSummary()
 print('\n\033[1mTurnover avg.:\033[0m {0:.2%}'.format(allocation.getTurnover(data['weights']).mean))
 
