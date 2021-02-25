@@ -54,7 +54,8 @@ for now in tqdm(range(date1, date2, increment), desc='Compute history'):  # Comp
         output = output.append(summary, ignore_index=True)
 
 fig, axs = plt.subplots(2, figsize=(15, 8), sharex=True, gridspec_kw={'height_ratios': [3, 5]})
-fig.suptitle('Option Volatility Smile analisys ({})'.format(ticker_info.ticker), fontsize=16)
+fig.suptitle('Option Volatility Smile analysis ({})'.format(ticker_info.ticker), fontsize=16)
+
 
 output['lnRet'] = np.abs(np.log(output['SpotPrice'].shift(-1) / output['SpotPrice']))
 
@@ -67,7 +68,7 @@ axs[0].grid()
 
 # chart 2
 axs[1].set_title('Volatility metrics')
-axs[1].plot(output['CBOE_VIX'], color='c', label='$VIX_{CBOE}$')
+axs[1].plot(output['CBOE_VIX'], color='c', label='$EVI$')
 axs[1].plot(output['ATM'], color='orange', label='$Dirac$')
 axs[1].set(ylabel='%')
 axs[1].legend()

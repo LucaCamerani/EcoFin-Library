@@ -33,7 +33,7 @@ try:
     exps = optSurface.getExpirations()
 
     fig = plt.figure(figsize=(15, 10))
-    fig.suptitle('Option Prices Spread Analisys', fontsize=16)
+    fig.suptitle('Option Prices Spread Analysis', fontsize=16)
 
     # Plot option price surfaces
     ax = fig.add_subplot(211, projection='3d')

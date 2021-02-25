@@ -1,5 +1,5 @@
 """
-surfaceAnalisys.py
+surfaceAnalysis.py
 
 Created by Luca Camerani at 11/12/2020, University of Milano-Bicocca.
 (l.camerani@campus.unimib.it)
