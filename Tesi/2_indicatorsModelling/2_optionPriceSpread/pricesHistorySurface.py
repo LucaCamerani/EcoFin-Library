@@ -16,6 +16,7 @@ import numpy as np
 import pandas as pd
 import tqdm
 
+from mpl_toolkits.mplot3d import axes3d
 from EcoFin.dataDownload.optionsManager import OptionManager
 from EcoFin.dataDownload.ticker import Ticker
 from EcoFin.options.deepOptionSurface import DeepOptionSurface
@@ -26,7 +27,7 @@ ticker = Ticker('MSFT')
 
 increment = 86400  # 1 day
 date1 = 1551657600  # Monday 4 March 2019
-date2 = date1 + increment * 365
+date2 = date1 + increment * 1
 # -------------------------------------------------------------------
 
 for now in tqdm.tqdm(range(date1, date2, increment), desc='Generate frames'):  # Compute day by day
@@ -39,7 +40,7 @@ for now in tqdm.tqdm(range(date1, date2, increment), desc='Generate frames'):  #
         exps = optSurface.getExpirations()
 
         fig = plt.figure(figsize=(15, 10))
-        fig.suptitle('Option Prices Spread Analisys', fontsize=16)
+        fig.suptitle('Option Prices Spread Analysis', fontsize=16)
 
         # Plot option price surfaces
         ax = fig.add_subplot(211, projection='3d')
@@ -95,7 +96,7 @@ for now in tqdm.tqdm(range(date1, date2, increment), desc='Generate frames'):  #
         history = ticker.getHistory(end=now).tail(history_back)
         ax.plot(history.Close)
 
-        # plt.show()
+        plt.show()
 
         # Save frame
         # ----------------------[EXPORT BLOCK]--------------------------------
@@ -106,5 +107,5 @@ for now in tqdm.tqdm(range(date1, date2, increment), desc='Generate frames'):  #
         plt.savefig(r'{}/{}_{}.png'.format(path, now, ticker.ticker))
         # ----------------------[EXPORT BLOCK]--------------------------------
     except:
-        # print('Error: {}'.format(now))
+        print('Error: {}'.format(now))
         pass

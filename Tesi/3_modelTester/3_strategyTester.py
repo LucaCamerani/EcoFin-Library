@@ -25,7 +25,7 @@ base_path = r'../Export/BackTest_C'
 start_date = 0
 
 direction = 'OPS_[OI]'
-force = 'VIX_[CBOE]'  # In None, don't use force driver
+force = 'VIX_[CBOE]'  # If None, don't use force driver
 polarize = True
 buy_only = False
 # ----------------------------------------------------------
@@ -76,26 +76,26 @@ data['lnReturns'] = np.log(data['SpotPrice'].shift(-1) / data['SpotPrice'])
 data['strategy'] = data['lnReturns'] * data['signals'] * l
 
 # Plot results
-fig, axs = plt.subplots(3, figsize=(15, 8), sharex=True)
+fig, axs = plt.subplots(2, figsize=(15, 8), sharex=True)
 fig.suptitle('Strategy tester', fontsize=16)
 
 # Plot signals
-axs[0].set_title('Benchmark returns')
-axs[1].set_title('Signals')
+#axs[0].set_title('Benchmark returns')
+axs[0].set_title('Signals')
 for tick in data['strategy'].keys():
-    axs[0].plot(np.cumsum(data['lnReturns'][tick]), label=tick)
-    axs[1].scatter(data['strategy'][tick].index,
+    #axs[0].plot(np.cumsum(data['lnReturns'][tick]), label=tick)
+    axs[0].scatter(data['strategy'][tick].index,
                    data['strategy'][tick], alpha=.3, label=tick)
 
-axs[0].set(ylabel=r'ln-returns ($X_t$)')
-axs[0].legend(ncol=4)
+#axs[0].set(ylabel=r'ln-returns ($X_t$)')
+#axs[0].legend(ncol=4)
 
 # Plot strategy return vs. benchmark (portfolio)
-axs[2].set_title('Portfolio returns')
-axs[2].plot(np.cumsum(data['lnReturns'].sum(axis=1)), label='Benchmark')
-axs[2].plot(np.cumsum(data['strategy'].sum(axis=1)), label='Strategy')
-axs[2].set(xlabel=r'Time ($t$)', ylabel=r'ln-returns ($X_t$)')
-axs[2].legend()
+axs[1].set_title('Portfolio returns')
+axs[1].plot(np.cumsum(data['lnReturns'].sum(axis=1)), label='Benchmark')
+axs[1].plot(np.cumsum(data['strategy'].sum(axis=1)), label='Strategy')
+axs[1].set(xlabel=r'Time ($t$)', ylabel=r'ln-returns ($X_t$)')
+axs[1].legend()
 
 # Compute performance metrics
 SR_b = data['lnReturns'].mean(axis=1).sum() / data['lnReturns'].mean(axis=1).std()
