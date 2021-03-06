@@ -16,5 +16,6 @@ setup(
     author_email='l.camerani@campus.unimib.it',
     description='EcoFin is a quantitative economic library',
     long_description=README,
-    long_description_content_type="text/markdown"
+    long_description_content_type="text/markdown",
+    include_package_data=True
 )
