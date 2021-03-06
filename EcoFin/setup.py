@@ -1,3 +1,4 @@
+import pathlib
 from setuptools import setup
 
 setup(
@@ -10,5 +11,7 @@ setup(
     license='BSD Open Source License',
     author='Luca Camerani',
     author_email='l.camerani@campus.unimib.it',
-    description='EcoFin is a quantitative economic library'
+    description='EcoFin is a quantitative economic library',
+    long_description = pathlib.path(__file__).parent,
+    long_description_content_type="text/markdown"
 )
