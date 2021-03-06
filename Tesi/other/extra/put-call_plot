@@ -1,0 +1,42 @@
+import os
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+from EcoFin.dataDownload.optionsManager import OptionManager
+from EcoFin.dataDownload.ticker import Ticker
+from EcoFin.options.deepOptionChain import DeepOptionChain
+from EcoFin.stat.utils import weightedAvg, weightedStd
+
+# -------------------------[Set-up]-------------------------
+ticker = Ticker('MSFT')
+optionManager = OptionManager(ticker, now=1492646400)
+exp = optionManager.getExpirationByMaturity(30, method='greater')
+optionChain = optionManager.getOptionChain(exp=exp)
+# ----------------------------------------------------------
+
+ticker_info = ticker.getInfo()
+forwardPrice = optionChain.getForwardPrice()
+
+deepOptionChain = DeepOptionChain(optionChain)
+data = deepOptionChain.getDeepOptionChain()
+
+data['weights'] = data.loc[:, ['openInterest_call', 'openInterest_put']].sum(axis=1) / \
+                  np.nansum(data.loc[:, ['openInterest_call', 'openInterest_put']].to_numpy())
+
+plt.figure(figsize=(10, 5))
+
+# chart 1
+plt.title = 'Option market price curve vs. theoretical prices'
+plt.plot(data.strike, data['BSMPrice_call'], linewidth=3, label='Theoretical call', color='green')
+plt.plot(data.strike, data['BSMPrice_put'], linewidth=3, label='Theoretical put', color='red')
+plt.plot(data.strike, data.avgPrice_call, linewidth=3, linestyle="dashed", label='$Call_{AVG}$')
+plt.plot(data.strike, data.avgPrice_put, linewidth=3, linestyle="dashed", label='$Put_{AVG}$')
+
+plt.plot(forwardPrice, 0, markersize=8, marker="^", color='violet')
+prices = data[['avgPrice_call', 'avgPrice_put']].to_numpy()
+plt.vlines(forwardPrice, np.nanmin(prices), np.nanmax(prices),
+           linestyles="dotted", color='violet', alpha=.6, label='Forward Price')
+plt.legend(loc=2)
+plt.tight_layout()
+plt.show()

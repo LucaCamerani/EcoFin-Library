@@ -17,6 +17,7 @@ import pandas as pd
 import tqdm
 
 from mpl_toolkits.mplot3d import axes3d
+from datetime import datetime
 from EcoFin.dataDownload.optionsManager import OptionManager
 from EcoFin.dataDownload.ticker import Ticker
 from EcoFin.options.deepOptionSurface import DeepOptionSurface
@@ -26,8 +27,8 @@ from EcoFin.options.utils import daysToMaturity
 ticker = Ticker('MSFT')
 
 increment = 86400  # 1 day
-date1 = 1551657600  # Monday 4 March 2019
-date2 = date1 + increment * 1
+date1 = 1514761200  # 04 January 2018
+date2 = date1 + increment * 200
 # -------------------------------------------------------------------
 
 for now in tqdm.tqdm(range(date1, date2, increment), desc='Generate frames'):  # Compute day by day
@@ -48,7 +49,7 @@ for now in tqdm.tqdm(range(date1, date2, increment), desc='Generate frames'):  #
 
         forwardP = {}
         output = {'call': {}, 'put': {}, 'OPS': {}}
-        for exp in exps[1:6]:
+        for exp in exps:
             surfaceChain = deepSurface.getDeepChainByDate(exp)
             chain = surfaceChain.getDeepOptionChain().set_index('strike')
             tau = daysToMaturity(exp, optSurface.getDate())
@@ -96,16 +97,21 @@ for now in tqdm.tqdm(range(date1, date2, increment), desc='Generate frames'):  #
         history = ticker.getHistory(end=now).tail(history_back)
         ax.plot(history.Close)
 
-        plt.show()
+        # Add now date
+        now_c = datetime.utcfromtimestamp(now).strftime('%d-%m-%Y')
+        props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+        ax.text(0.05, 0.95, 'Now: {}'.format(now_c), transform=ax.transAxes, fontsize=14,
+                verticalalignment='top', bbox=props)
+
+        #plt.show()
 
         # Save frame
         # ----------------------[EXPORT BLOCK]--------------------------------
-        path = r'../../../Export/{}'.format(ticker.ticker)
+        path = r'../../../Export/{}_surfaces'.format(ticker.ticker)
         if not os.path.exists(path):
             os.makedirs(path)
 
         plt.savefig(r'{}/{}_{}.png'.format(path, now, ticker.ticker))
         # ----------------------[EXPORT BLOCK]--------------------------------
     except:
-        print('Error: {}'.format(now))
         pass
