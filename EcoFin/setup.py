@@ -6,7 +6,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name='EcoFin',
-    version='1.0.0',
+    version='1.0.1',
     packages=['math', 'math.stochasticProcess', 'stat',
               'utils', 'equity', 'forward', 'options', 'dataDownload',
               'assetAllocation'],
