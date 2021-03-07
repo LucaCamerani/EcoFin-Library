@@ -11,7 +11,7 @@ with open(r"../requirements.txt", 'r') as fd:
 
 setup(
     name='EcoFin',
-    version='1.0.2',
+    version='1.0.3',
     packages=['math', 'math.stochasticProcess', 'stat',
               'utils', 'equity', 'forward', 'options', 'dataDownload',
               'assetAllocation'],
