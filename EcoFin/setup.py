@@ -1,4 +1,3 @@
-import pathlib
 from setuptools import setup
 import requirements
 
@@ -11,7 +10,7 @@ with open(r"requirements.txt", 'r') as fd:
 
 setup(
     name='EcoFin',
-    version='1.0.4',
+    version='1.0.0',
     packages=['math', 'math.stochasticProcess', 'stat',
               'utils', 'equity', 'forward', 'options', 'dataDownload',
               'assetAllocation'],
