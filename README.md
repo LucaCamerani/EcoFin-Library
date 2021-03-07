@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/LucaCamerani/EcoFin-Library/459057eed0b5ae45f690f79e9d02053a94271309/EcoFin/LOGO.svg" width="200">
+<img src="https://raw.githubusercontent.com/LucaCamerani/EcoFin-Library/5e9d8bbc19e28abe01d8469fffc143fe1f7dee32/EcoFin/LOGO.svg" width="200">
 
 <b>EcoFin</b> is a Python library developed for financial quantitative analysts and developers.
 The final goal is to provide a library that covers most of the topics related to quantitative finance:
