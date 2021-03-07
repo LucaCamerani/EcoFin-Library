@@ -10,10 +10,10 @@ with open(r"requirements.txt", 'r') as fd:
 
 setup(
     name='EcoFin',
-    version='1.1',
+    version='1.2',
     packages=['EcoFin', 'EcoFin.math', 'EcoFin.math.stochasticProcess', 'EcoFin.stat',
               'EcoFin.utils', 'EcoFin.equity', 'EcoFin.forward', 'EcoFin.options', 'EcoFin.dataDownload',
-              'EcoFin.assetAllocation', 'Examples'],
+              'EcoFin.assetAllocation'],
     url='https://github.com/LucaCamerani/EcoFin-Library',
     license='BSD Open Source License',
     author='Luca Camerani',
