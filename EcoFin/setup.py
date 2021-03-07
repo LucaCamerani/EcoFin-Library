@@ -25,5 +25,5 @@ setup(
     long_description=README,
     long_description_content_type="text/markdown",
     include_package_data=True,
-    requires=REQ
+    install_requires=REQ
 )
