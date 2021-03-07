@@ -17,7 +17,7 @@ The final goal is to provide a library that covers most of the topics related to
 * Option Price Spread (OPS) analysis
 
 
-The streght of this project is to enclose in a single library all the quantitative finance functions from data download to data analysis, in order to realize complete investment strategies.<br>
+The strength of this project is to enclose in a single library all the quantitative finance functions from data download to data analysis, in order to realize complete investment strategies.<br>
 To start using this library, take a look at the <a href="/Examples/">Examples</a> folder. 
 
 Luca Camerani, <b>University of Milano-Bicocca</b>, released under the "BSD Open Source License".
