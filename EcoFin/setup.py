@@ -2,16 +2,16 @@ import pathlib
 from setuptools import setup
 import requirements
 
-README = open(r"../README.md", "r").read()
+README = open(r"README.md", "r").read()
 REQ = []
 
-with open(r"../requirements.txt", 'r') as fd:
+with open(r"requirements.txt", 'r') as fd:
     for req in requirements.parse(fd):
         REQ.append("{}{}{}".format(req.name, req.specs[0][0], req.specs[0][1]))
 
 setup(
     name='EcoFin',
-    version='1.0.3',
+    version='1.0.4',
     packages=['math', 'math.stochasticProcess', 'stat',
               'utils', 'equity', 'forward', 'options', 'dataDownload',
               'assetAllocation'],
