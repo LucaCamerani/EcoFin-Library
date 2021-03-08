@@ -66,8 +66,8 @@ axs[0].legend()
 axs[0].grid()
 
 # chart 2
-axs[1].set_title('CBOE VIX')
-axs[1].plot(output['CBOE_VIX'], color='c', label='EVI$')
+axs[1].set_title('Equity Volatility Index (EVI)')
+axs[1].plot(output['CBOE_VIX'], color='c', label='EVI')
 axs[1].set(ylabel='%')
 axs[1].legend()
 axs[1].grid()
