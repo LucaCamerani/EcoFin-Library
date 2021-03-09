@@ -25,4 +25,4 @@ To install the <a href="https://pypi.org/project/EcoFin/">library package<a>, ty
 pip install EcoFin
 ```
 
-Luca Camerani, <b>University of Milano-Bicocca</b>, released under the "BSD Open Source License".
+Created by Luca Camerani, <b>University of Milano-Bicocca</b> and released under the "BSD Open Source License".
