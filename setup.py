@@ -1,12 +1,13 @@
 from setuptools import setup
-import requirements
+
+def parser(path: str):
+    with open(path) as f:
+        lines = f.read().splitlines()
+
+    return lines
 
 README = open(r"README.md", "r").read()
-REQ = []
-
-with open(r"requirements.txt", 'r') as fd:
-    for req in requirements.parse(fd):
-        REQ.append("{}{}{}".format(req.name, req.specs[0][0], req.specs[0][1]))
+REQ = parser(r"requirements.txt")
 
 setup(
     name='EcoFin',

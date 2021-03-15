@@ -37,7 +37,7 @@ use_cache = True
 if "session_cache" not in locals():
     session_cache = Cache()
 
-local_mode = True
+local_mode = False
 show_url = False
 
 resetUrl()
