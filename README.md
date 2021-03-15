@@ -18,6 +18,11 @@ The final goal is to provide a library that covers most of the topics related to
 
 
 The strength of this project is to enclose in a single library all the quantitative finance functions from data download to data analysis, in order to realize complete investment strategies.<br>
-To start using this library, take a look at the <a href="/Examples/">Examples</a> folder. 
+To start using this library, take a look at the <a href="/Examples/">Examples</a> folder.
 
-Luca Camerani, <b>University of Milano-Bicocca</b>, released under the "BSD Open Source License".
+To install the <a href="https://pypi.org/project/EcoFin/">library package<a>, type in your terminal
+```{r test-python, engine='python'}
+pip install EcoFin
+```
+
+Created by Luca Camerani, <b>University of Milano-Bicocca</b> and released under the "BSD Open Source License".
