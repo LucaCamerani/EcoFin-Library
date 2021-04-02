@@ -46,7 +46,7 @@ class DeepOptionChain():
             data['BSMPrice_put'] = None
             for strike in data.strike:
                 option = BSM(price, strike, r, sigma, maturity.days)
-                optPrice = option.price()
+                optPrice = option.computePrice()
                 data.loc[data.strike == strike, ['BSMPrice_call', 'BSMPrice_put']] = [optPrice.call, optPrice.put]
 
             data['avgPrice_call'] = interpolateNaN(data.avgPrice_call)

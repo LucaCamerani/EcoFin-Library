@@ -23,7 +23,7 @@ fig.tight_layout()
 
 # plot tree
 axs[0].set_title('Binomial Tree')
-for i in tree.getTimeVector():
+for i in tree.getTimeVector()[::-1]:
     x = [1, 0, 1]
     for j in range(i):
         x.append(0)
@@ -36,9 +36,11 @@ axs[0].set(xlabel='Time ($t$)', ylabel='Underlying price ($S_t$)')
 
 # plot histogram
 axs[1].set_title('Binomial density')
-T = tree.getTimeVector()[1]
+T = tree.getTimeVector()[-1]
 axs[1].barh(tree.getUnderlyingAtTime(T), tree.getProbabilitiesAtTime(T))
 axs[1].set(xlabel='Probabilities')
+
+print(tree.computePrice())
 
 plt.subplots_adjust(wspace=.001)
 plt.show()

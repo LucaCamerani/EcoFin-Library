@@ -46,7 +46,7 @@ theoreticalPrices = {'call': [], 'put': []}
 
 for strike in strikeList:
     option = BSM(price, strike, r, sigma, maturity)
-    optPrice = option.price()
+    optPrice = option.computePrice()
 
     theoreticalPrices['call'].append(optPrice.call)
     theoreticalPrices['put'].append(optPrice.put)

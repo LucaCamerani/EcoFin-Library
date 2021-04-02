@@ -18,7 +18,7 @@ strikes = range(1, 200, 5)
 
 for strike in strikes:
     option = BSM(100, strike, 0.05, 0.2, 365)
-    price = option.price()
+    price = option.computePrice()
     prices['call'].append(price.call)
     prices['put'].append(price.put)
 

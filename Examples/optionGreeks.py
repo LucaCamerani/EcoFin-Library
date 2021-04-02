@@ -15,7 +15,7 @@ option = BSM(100, 100, 0.05, 0.2, 70)
 
 print(option.computeValues())
 # -----
-print(option.price())
+print(option.computePrice())
 print('Greeks:')
 print(' • {}'.format(option.delta()))
 print(' • {}'.format(option.gamma()))

@@ -19,7 +19,7 @@ from EcoFin.math.utils import findNearest
 
 
 class BSM():
-    def __init__(self, S, K, r, sigma, daysToMaturity, div=0):
+    def __init__(self, S, K, daysToMaturity, r, sigma, div=0):
         self.K = K
         self.r = r
         if r is None: self.r = 0
@@ -45,7 +45,7 @@ class BSM():
             "d2": d2
         })
 
-    def price(self, sigma=None):
+    def computePrice(self, sigma=None):
         if sigma == 0: sigma = 1.0e-5
         if sigma is None:
             d1 = self.d1
@@ -78,9 +78,9 @@ class BSM():
                 IVs = np.arange(range['min'], range['max'], precision)
                 for iv in IVs:
                     if type == 'call':
-                        priceIV = self.price(sigma=iv).call
+                        priceIV = self.computePrice(sigma=iv).call
                     else:
-                        priceIV = self.price(sigma=iv).put
+                        priceIV = self.computePrice(sigma=iv).put
 
                     prices.append(priceIV)
 

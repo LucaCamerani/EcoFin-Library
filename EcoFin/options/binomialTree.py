@@ -12,6 +12,7 @@ and is released under the "BSD Open Source License".
 from collections import namedtuple
 
 import numpy as np
+import pandas as pd
 import scipy.stats as ss
 
 
@@ -75,8 +76,8 @@ class OptionTree():
             output[type] = sum(self.getProbabilitiesAtTime() * payoff)
 
         return namedtuple('Probability', ['call', 'put'])(**{
-            "call": output['call'],
-            "put": output['put']
+            "call": output['call'][::-1],
+            "put": output['put'][::-1]
         })
 
     def computePrice(self):
@@ -85,14 +86,17 @@ class OptionTree():
                 self.getProbabilitiesAtTime())
             putPrice = np.exp(-self.r * self.T) * np.array(self.getPayoffAtTime().put).dot(
                 self.getProbabilitiesAtTime())
+            tree = None
         else:
             prices = self.computeAmericanPrice()
             callPrice = prices.call
             putPrice = prices.put
+            tree = prices.tree
 
-        return namedtuple('Prices', ['call', 'put'])(**{
+        return namedtuple('Prices', ['call', 'put', 'tree'])(**{
             "call": callPrice,
-            "put": putPrice
+            "put": putPrice,
+            "tree": tree
         })
 
     def putCallParity(self, callPrice):
@@ -100,13 +104,14 @@ class OptionTree():
 
     def computeAmericanPrice(self):
         output = {}
+        tree = {'call': [{}] * self.N, 'put': [{}] * self.N}
         for type in ['call', 'put']:
             if type == 'call':
                 payoff = self.getPayoffAtTime().call
             else:
                 payoff = self.getPayoffAtTime().put
 
-            for step in self.getTimeVector():
+            for step in self.getTimeVector()[::-1]:
                 price = []
                 for node in range(0, len(payoff) - 1, 1):
                     up = payoff[node + 1]
@@ -119,12 +124,18 @@ class OptionTree():
                     backward = self.getPayoffAtTime(step=step).put
 
                 payoff = np.maximum(backward, price)
+                tree[type][step] = {'udl': self.getUnderlyingAtTime(step=step),
+                                    'pay': backward,
+                                    'opt': np.array(price)}
+
+            tree[type] = pd.DataFrame.from_dict(tree[type])
             output[type] = payoff[0]
 
-        return namedtuple('Prices', ['call', 'put'])(**{
+        return namedtuple('Prices', ['call', 'put', 'tree'])(**{
             "call": output['call'],
-            "put": output['put']
+            "put": output['put'],
+            "tree": tree
         })
 
     def getTimeVector(self):
-        return range(self.N - 1, -1, -1)
+        return list(range(self.N))
