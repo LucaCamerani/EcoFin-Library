@@ -11,7 +11,7 @@ REQ = parser(r"requirements.txt")
 
 setup(
     name='EcoFin',
-    version='1.2',
+    version='1.3',
     packages=['EcoFin', 'EcoFin.math', 'EcoFin.math.stochasticProcess', 'EcoFin.stat',
               'EcoFin.utils', 'EcoFin.equity', 'EcoFin.forward', 'EcoFin.options', 'EcoFin.dataDownload',
               'EcoFin.assetAllocation'],
