@@ -28,8 +28,8 @@ plt.figure(figsize=(10, 5))
 
 # chart 1
 plt.title = 'Option market price curve vs. theoretical prices'
-plt.plot(data.strike, data['BSMPrice_call'], linewidth=3, label='Theoretical call', color='green')
-plt.plot(data.strike, data['BSMPrice_put'], linewidth=3, label='Theoretical put', color='red')
+plt.plot(data.strike, data['TheoPrice_call'], linewidth=3, label='Theoretical call', color='green')
+plt.plot(data.strike, data['TheoPrice_put'], linewidth=3, label='Theoretical put', color='red')
 plt.plot(data.strike, data.avgPrice_call, linewidth=3, linestyle="dashed", label='$Call_{AVG}$')
 plt.plot(data.strike, data.avgPrice_put, linewidth=3, linestyle="dashed", label='$Put_{AVG}$')
 

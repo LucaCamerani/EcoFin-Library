@@ -12,6 +12,7 @@ and is released under the "BSD Open Source License".
 import numpy as np
 
 from EcoFin.options.blackScholesModel import BSM
+from EcoFin.options.binomialTree import BinomialTree
 from EcoFin.options.impliedVolatility import ImpliedVolatility
 from EcoFin.options.optionChain import OptionChain
 from EcoFin.options.volatilitySmile import VolatilitySmile
@@ -42,23 +43,27 @@ class DeepOptionChain():
         # compute theoretical prices
         data = chain.full.copy()
         if self.computeBSM:
-            data['BSMPrice_call'] = None
-            data['BSMPrice_put'] = None
+            data['TheoPrice_call'] = None
+            data['TheoPrice_put'] = None
             for strike in data.strike:
-                option = BSM(price, strike, r, sigma, maturity.days)
-                optPrice = option.computePrice()
-                data.loc[data.strike == strike, ['BSMPrice_call', 'BSMPrice_put']] = [optPrice.call, optPrice.put]
+                if self.optionChain.isPlainVanilla():   # PlainVanilla
+                    option = BSM(price, strike, r, sigma, maturity.days)
+                    optPrice = option.computePrice()
+                else:                                   # American exercise
+                    option = BinomialTree(price, strike, maturity.days, r, sigma, N=80, plainVanilla=False)
+                    optPrice = option.computePrice()
+
+                data.loc[data.strike == strike, ['TheoPrice_call', 'TheoPrice_put']] = [optPrice.call, optPrice.put]
 
             data['avgPrice_call'] = interpolateNaN(data.avgPrice_call)
             data['avgPrice_put'] = interpolateNaN(data.avgPrice_put)
-            data['spread_call'] = data['avgPrice_call'] - data['BSMPrice_call']
-            data['spread_put'] = data['avgPrice_put'] - data['BSMPrice_put']
+            data['spread_call'] = data['avgPrice_call'] - data['TheoPrice_call']
+            data['spread_put'] = data['avgPrice_put'] - data['TheoPrice_put']
             data['spreadSummary'] = data['spread_call'] - data['spread_put']
         else:
             data['spreadSummary'] = data['avgPrice_call'] - data['avgPrice_put'] - \
                                     (self.optionChain.getSpotPrice() - data['strike'] *
-                                     np.exp(
-                                         -self.optionChain.getRiskFreeRate() * self.optionChain.getTimeToMaturity().years))
+                                     np.exp(-self.optionChain.getRiskFreeRate() * self.optionChain.getTimeToMaturity().years))
 
         if self.computeIV:
             # compute IVs and IV spread

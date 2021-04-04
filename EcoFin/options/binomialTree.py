@@ -16,7 +16,7 @@ import pandas as pd
 import scipy.stats as ss
 
 
-class OptionTree():
+class BinomialTree():
     def __init__(self, S, K, daysToMaturity, r, sigma, div=0, N=30, plainVanilla=True):
         self.T = daysToMaturity / float(365)
         self.deltaT = float(self.T) / float(N)

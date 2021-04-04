@@ -11,10 +11,10 @@ and is released under the "BSD Open Source License".
 import numpy as np
 from matplotlib import pyplot as plt
 
-from EcoFin.options.binomialTree import OptionTree
+from EcoFin.options.binomialTree import BinomialTree
 
 # set up tree
-tree = OptionTree(30, 29, 40, 0.05, 0.3, N=15, plainVanilla=True, div=0)
+tree = BinomialTree(30, 29, 40, 0.05, 0.3, N=15, plainVanilla=True, div=0)
 
 # set up plot
 fig, axs = plt.subplots(1, 2, figsize=(15, 8), sharey=True, gridspec_kw={'width_ratios': [3, 1]})

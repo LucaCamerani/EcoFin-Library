@@ -11,14 +11,14 @@ and is released under the "BSD Open Source License".
 
 import matplotlib.pyplot as plt
 
-from EcoFin.options.binomialTree import OptionTree
+from EcoFin.options.binomialTree import BinomialTree
 
 call = []
 put = []
 strikes = range(0, 200, 5)
 
 for strike in strikes:
-    tree = OptionTree(100, strike, 50, 0.05, 0.2, N=50)
+    tree = BinomialTree(100, strike, 50, 0.05, 0.2, N=50)
     call.append(tree.computePrice().call)
     put.append(tree.computePrice().put)
 

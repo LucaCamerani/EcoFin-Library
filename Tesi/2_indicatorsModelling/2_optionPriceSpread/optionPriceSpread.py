@@ -40,8 +40,8 @@ fig.suptitle('Option prices spread analysis ({})'.format(ticker_info.longName), 
 
 # chart 1
 axs[0].set_title('Option market price curve vs. theorichal prices')
-axs[0].plot(data.strike, data['BSMPrice_call'], linestyle="dotted", label='Theoretical call')
-axs[0].plot(data.strike, data['BSMPrice_put'], linestyle="dotted", label='Theoretical put')
+axs[0].plot(data.strike, data['TheoPrice_call'], linestyle="dotted", label='Theoretical call')
+axs[0].plot(data.strike, data['TheoPrice_put'], linestyle="dotted", label='Theoretical put')
 axs[0].plot(data.strike, data.avgPrice_call, label='$Call_{AVG}$', color='green')
 axs[0].plot(data.strike, data.avgPrice_put, label='$Put_{AVG}$', color='red')
 

@@ -12,13 +12,13 @@ and is released under the "BSD Open Source License".
 import matplotlib.pyplot as plt
 import numpy as np
 
-from EcoFin.options.binomialTree import OptionTree
+from EcoFin.options.binomialTree import BinomialTree
 
 prob = {'call': [], 'put': []}
 strikes = np.arange(0, 200, 1)
 
 for strike in strikes:
-    tree = OptionTree(100, strike, 50, 0.05, 0.2)
+    tree = BinomialTree(100, strike, 50, 0.05, 0.2)
     prob['call'].append(tree.getExerciseProb().call)
     prob['put'].append(tree.getExerciseProb().put)
 

@@ -32,7 +32,7 @@ class OptionManager():
         else:
             return False
 
-    def downloadOptionChain(self, exp: int = None):
+    def downloadOptionChain(self, exp: int=None):
         """
         Note: now and exp in unixtimestamp format!
         """

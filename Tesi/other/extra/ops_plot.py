@@ -28,8 +28,8 @@ fig, axs = plt.subplots(2, gridspec_kw={'height_ratios': [3, 2]}, figsize=(10, 5
 
 """
 # chart 1
-axs[0].plot(data.strike, data['BSMPrice_call'], linewidth=3, label='Theoretical call', color='green')
-axs[0].plot(data.strike, data['BSMPrice_put'], linewidth=3, label='Theoretical put', color='red')
+axs[0].plot(data.strike, data['TheoPrice_call'], linewidth=3, label='Theoretical call', color='green')
+axs[0].plot(data.strike, data['TheoPrice_put'], linewidth=3, label='Theoretical put', color='red')
 axs[0].plot(data.strike, data.avgPrice_call, linewidth=3, linestyle="dashed", label='$Call_{AVG}$')
 axs[0].plot(data.strike, data.avgPrice_put, linewidth=3, linestyle="dashed", label='$Put_{AVG}$')
 

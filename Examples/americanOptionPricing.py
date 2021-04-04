@@ -9,9 +9,9 @@ This file is part of the EcoFin-Library (https://github.com/LucaCamerani/EcoFin-
 and is released under the "BSD Open Source License".
 """
 
-from EcoFin.options.binomialTree import OptionTree
+from EcoFin.options.binomialTree import BinomialTree
 
-tree = OptionTree(30, 29, 40, 0.05, 0.3, N=8, plainVanilla=False, div=0)
+tree = BinomialTree(30, 29, 40, 0.05, 0.3, N=8, plainVanilla=False, div=0)
 
 print(tree.getPayoffAtTime(step=7).put)
 print(tree.computePrice())

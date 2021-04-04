@@ -21,13 +21,14 @@ from EcoFin.options.utils import daysToMaturity
 
 class OptionChain():
     def __init__(self, ticker: Ticker, chain_data: dict, now: float, expiration: float,
-                 underlying_price: float, risk_fee_rate: float):
+                 underlying_price: float, risk_fee_rate: float, plainVanilla: bool=True):
         self.ticker = ticker
         self.chain_data = chain_data
         self.now = now
         self.exp = expiration
         self.underlying_price = underlying_price
         self.r = risk_fee_rate
+        self.plainVanilla = plainVanilla
 
     def optionsParse(self, opt):
         data = pd.DataFrame(opt)
@@ -109,6 +110,9 @@ class OptionChain():
     def getTicker(self):
         return self.ticker
 
+    def isPlainVanilla(self):
+        return self.plainVanilla
+
     def getSummary(self):
         return {'Ticker': self.getTicker().ticker,
                 'Now': self.getChainDate(),
@@ -116,5 +120,6 @@ class OptionChain():
                 'S': self.getSpotPrice(),
                 'F': self.getForwardPrice(),
                 'r': self.getRiskFreeRate(),
-                'TimeToMaturity': self.getTimeToMaturity()
+                'TimeToMaturity': self.getTimeToMaturity(),
+                'PlainVanilla': self.isPlainVanilla()
                 }
